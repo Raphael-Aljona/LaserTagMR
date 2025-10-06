@@ -6,17 +6,32 @@ public class GameManager : MonoBehaviour
     [Header("Target")]
     public GameObject targetPrefab;
     public Transform[] targetSpawn;
-    private int targetCount;
+    public float targetCount;
+    public AudioClip targetClip;
+    public AudioSource targetClip2;
 
     [Header("Timer")]
     public TextMeshProUGUI textUI;
-    public float timer = 300;
-    private bool isPlaying = true;
+    private float timer = 0;
+    private float timerReset = 60;
+    private bool isPlaying = false;
 
-    void Start()
+    [Header("Accuracy")]
+    public TextMeshProUGUI textAccuracy;
+    public ControllerShooter controllerShooter;
+    public ControllerShooter controllerShooter2;
+
+    public GameObject win;
+    public GameObject counter;
+
+    public void StartCounter()
     {
+        timer = timerReset;
+        controllerShooter.shotCount = 0;
+        controllerShooter2.shotCount = 0;
+        targetCount = 0;
         isPlaying = true;
-        SpawnTarget();
+        SpawnTarget();  
     }
 
     // Update is called once per frame
@@ -42,7 +57,14 @@ public class GameManager : MonoBehaviour
 
         textUI.text = seconds < 10 ? $"{minutes}:0{seconds}" : $"{minutes}:{seconds}";
 
-        Debug.Log(textUI.text);
+        float accuracy = (targetCount /( controllerShooter.shotCount + controllerShooter2.shotCount)) * 100;
+
+        textAccuracy.text = $"Accuracy: {accuracy.ToString("F0")}";
+        Debug.Log(accuracy);
+        //Debug.Log(targetCount);
+        //Debug.Log(controllerShooter.shotCount);
+
+        //Debug.Log(textUI.text);
     }
 
     void SpawnTarget()
@@ -52,11 +74,15 @@ public class GameManager : MonoBehaviour
         int randomIndex = Random.Range(0, targetSpawn.Length);
         Transform spawnpoint = targetSpawn[randomIndex];
         Instantiate(targetPrefab, spawnpoint.position, Quaternion.identity);
+        Debug.Log("alvo spawnado");
+        targetClip2.PlayOneShot(targetClip);
     }
 
     public void TargetDestroyed()
     {
+        if (!isPlaying) return;
         targetCount++;
+        //Debug.Log(targetCount);
         Debug.Log("alvo destruido");
         SpawnTarget();
     }
@@ -66,5 +92,7 @@ public class GameManager : MonoBehaviour
         isPlaying = false;
         Debug.Log("End Game");
         timer = 0;
+        counter.SetActive(false);
+        win.SetActive(true);
     }
 }

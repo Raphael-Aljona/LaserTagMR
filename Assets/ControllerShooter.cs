@@ -1,5 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 public class ControllerShooter : MonoBehaviour
 {
     public InputActionProperty triggerAction; // Conecte no inspector a ação do trigger
@@ -7,14 +9,21 @@ public class ControllerShooter : MonoBehaviour
     public GameObject projectilePrefab;
     public float shootForce = 10f;
     public float laserLength = 5f;
+    public Animator lAnimator;
+    public float shotCount;
 
-    private LineRenderer lineRenderer;
+    public LineRenderer lineRenderer;
     private bool triggerPressedLastFrame = false;
 
-    void Start()
+    IEnumerator Start()
     {
-        lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.positionCount = 2;
+        yield return new WaitForSeconds(1);
+        Debug.Log("1 sec");
+        lineRenderer = FindAnyObjectByType<LineRenderer>();
+        if (lineRenderer != null)
+        {
+            lineRenderer.positionCount = 2;
+        }
     }
 
     void Update()
@@ -39,7 +48,7 @@ public class ControllerShooter : MonoBehaviour
 
     void UpdateLaser()
     {
-        if (shootOrigin != null)
+        if (shootOrigin != null && lineRenderer != null)
         {
             Vector3 start = shootOrigin.position;
             Vector3 end = start + shootOrigin.forward * laserLength;
@@ -55,10 +64,15 @@ public class ControllerShooter : MonoBehaviour
 
         GameObject projectile = Instantiate(projectilePrefab, shootOrigin.position, shootOrigin.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
+        shotCount++;
+        Debug.Log("shot count:" + shotCount);
+
+        lAnimator.SetTrigger("Shoot");
 
         if (rb != null)
         {
-            rb.linearVelocity = shootOrigin.forward * shootForce;
+            rb.linearVelocity = shootOrigin.forward * shootForce; // <- AQUI ESTAVA O ERRO
+            
         }
     }
-}   
+}

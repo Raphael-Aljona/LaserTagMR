@@ -1,0 +1,63 @@
+{
+    "version": 1,
+    "name": "VRInput",
+    "maps": [
+        {
+            "name": "VR",
+            "id": "eba28daa-03a9-4a84-9a77-c93166fe5f1f",
+            "actions": [
+                {
+                    "name": "Trigger",
+                    "type": "Value",
+                    "id": "41f2eae2-6449-4e32-964b-f771104baf7f",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2531cc08-ce57-47ce-b89c-280622fa2232",
+                    "path": "<XRController>{LeftHand}/{Trigger}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "VRRight",
+            "id": "4102b069-00d5-4c0c-a998-dacc27f93d51",
+            "actions": [
+                {
+                    "name": "Trigger",
+                    "type": "Value",
+                    "id": "51d4394b-88ef-4430-bc3d-08c1a1202ff9",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f3cde69a-4a69-43b6-ba78-5a5f1cf702ea",
+                    "path": "<XRController>{RightHand}/{Trigger}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

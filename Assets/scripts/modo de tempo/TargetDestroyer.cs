@@ -15,6 +15,7 @@ public class TargetDestroyer : MonoBehaviour
         {
             gameManager.TargetDestroyed();
             Destroy(gameObject);
+            Destroy(collision.gameObject);
         }
 
     }

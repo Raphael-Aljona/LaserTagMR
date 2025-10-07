@@ -12,6 +12,8 @@ public class ControllerShooter : MonoBehaviour
     public Animator lAnimator;
     public float shotCount;
 
+    public AudioSource shootSource;
+
     public LineRenderer lineRenderer;
     private bool triggerPressedLastFrame = false;
 
@@ -65,7 +67,10 @@ public class ControllerShooter : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, shootOrigin.position, shootOrigin.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         shotCount++;
-        Debug.Log("shot count:" + shotCount);
+
+        shootSource.Play();
+
+        //Debug.Log("shot count:" + shotCount);
 
         lAnimator.SetTrigger("Shoot");
 
